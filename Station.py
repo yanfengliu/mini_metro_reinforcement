@@ -25,6 +25,26 @@ class Station:
             self.passengers.append(Passenger(station_type))
     
     def move_passengers(self):
-        for train in self.trains_in_station:
-            assert (train.in_station == 1)
+        passengers_in_need = False
+        while(True):
+            for train in self.trains_in_station:
+                assert (train.in_station == True)
+                # let passengers on train leave first
+                for p in train.passengers:
+                    if p.destination == self.station_type:
+                        train.passengers.remove(p)
+
+                if (len(train.passengers) >= train.capacity):
+                    # move full trains out of station
+                    train.in_station = False
+                    self.trains_in_station.remove(train)
+                else:
+                    for p in self.passengers:
+                        if (any([p.destination == s.station_type for s in train.next_stations])):
+                            passengers_in_need = True
+                            train.passengers.append(p)
+                            self.passengers.remove(p)
+
+            if (passengers_in_need == False):
+                break
             

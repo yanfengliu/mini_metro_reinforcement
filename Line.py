@@ -1,4 +1,5 @@
 class Line:
-    def __init__(self, name):
+    def __init__(self, name, stations):
         self.name = name
-        self.stations = []
+        self.stations = stations
+        self.trains = []
